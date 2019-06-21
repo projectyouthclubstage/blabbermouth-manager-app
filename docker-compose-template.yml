@@ -1,0 +1,15 @@
+version: "3"
+services:
+  ngdns-frontend-{version}:
+    build:
+      context: .
+      dockerfile: ../Dockerfile
+    image: 192.168.233.1:5000/blm-manager-app:{version}
+    networks:
+      dev:
+        aliases:
+         - blm-manager-app-{version}
+networks:
+  dev:
+    external:
+      name: dev
