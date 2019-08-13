@@ -1,0 +1,128 @@
+<div>
+      <div class="form-row">
+        <div class="form-group col-md-4">
+        <label for="inputState">Zeitraum</label>
+        <select id="inputState" [(ngModel)]="timemin" class="form-control">
+          <option value="15" selected>15 Minuten</option>
+          <option value="30">30 Minuten</option>
+          <option value="60">60 Minuten</option>
+          <option value="3600">1 Tag</option>
+          <option value="7200">2Tage</option>
+          <option value="">Indivduell</option>
+        </select>
+        </div>
+        <div class="form-group col-md-4" *ngIf="timemin.length == 0">
+            <label for="from">Von</label>
+            <input [(ngModel)]="from" type="text" class="form-control" id="from" placeholder="2018-09-09 00:00:00">
+          </div>
+          <div class="form-group col-md-4" *ngIf="timemin.length == 0">
+            <label for="to">Bis</label>
+            <input [(ngModel)]="to" type="text" class="form-control" id="to" placeholder="2018-09-09 00:00:00">
+          </div>
+      </div>
+
+      <div >
+
+        <div *ngIf="filtershow" class="form-row">
+          <div class="form-group col-md-4">
+            <label for="id">Id</label>
+            <input [(ngModel)]="filter.id" type="text" class="form-control" id="id" placeholder="a97e4e70-de40-4ef6-a18a-4855306df5ca">
+          </div>
+          <div class="form-group col-md-4">
+            <label for="inputState">State</label>
+            <input [(ngModel)]="filter.state" type="text" class="form-control" id="inputState" placeholder="1">
+          </div>
+          <div class="form-group col-md-4">
+              <label for="inputProcess">Prozess</label>
+              <input [(ngModel)]="filter.process" type="text" class="form-control" id="inputProcess" placeholder="1">
+            </div>
+        </div>
+        <div *ngIf="filtershow" class="form-row">
+            <div class="form-group col-md-4">
+              <label for="inputApplication">Anwendung</label>
+              <input [(ngModel)]="filter.application" type="text" class="form-control" id="inputApplication" placeholder="UserService">
+            </div>
+            <div class="form-group col-md-4">
+              <label for="inputVersion">Version</label>
+              <input [(ngModel)]="filter.version" type="text" class="form-control" id="inputVersion" placeholder="1">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="inputRetry">Retry</label>
+                <input [(ngModel)]="filter.retryCount" type="text" class="form-control" id="inputRetry" placeholder="0">
+              </div>
+          </div>
+          <div *ngIf="filtershow" class="form-row">
+              <div class="form-group col-md-6">
+                <label for="inputPreId">PreId</label>
+                <input [(ngModel)]="filter.preId" type="text" class="form-control" id="inputPreId" placeholder="39101172-0a1f-4ba5-aae1-5d50799dfd15">
+              </div>
+              <div class="form-group col-md-6">
+                <label for="inputIsRetry">isRetry</label>
+                <input [(ngModel)]="filter.isRetry" type="text" class="form-control" id="inputIsRetry" placeholder="false">
+              </div>
+          </div>
+        <div class="form-row">
+
+            <div class="form-group col-md-1">
+                <a href="javascript:void(0);" (click)="loadPage()"><i class="material-icons">
+                    search
+                    </i>Suchen</a>
+            </div>
+            <div class="form-group col-md-2">
+                <a href="javascript:void(0);" *ngIf="!filtershow" (click)="togglefilter()">
+                    <i class="material-icons">
+                        filter_list
+                        </i>
+                        Filter erweitern 
+                      </a>
+
+                <a href="javascript:void(0);"  *ngIf="filtershow"  (click)="togglefilter()">
+                     <i class="material-icons">
+                        minimize
+                        </i>
+                        Filter minimieren
+                        </a>
+              </div>
+        </div>
+      </div>
+
+
+</div>
+
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th scope="Date">#</th>
+    <th scope="col">#</th>
+    <th scope="col">Process</th>
+    <th scope="col">Status</th>
+    <th scope="col">Anwendung</th>
+    <th scope="col">Version</th>
+    <th scope="col">Retry</th>
+    <th scope="col">preId</th>
+    <th scope="col">isRetry</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let entry of x.content; index as i">
+    <th scope="row">{{ entry.calendar }}</th>
+    <th>{{ entry.id }}</th>
+    <td>{{ entry.process}}</td>
+    <td>{{ entry.state }}</td>
+    <td>{{ entry.application}}</td>
+    <td>{{ entry.version}}</td>
+    <td>{{ entry.retryCount}}</td>
+    <td>{{ entry.previousMessage}}</td>
+    <td>{{ entry.retryMessage}}</td>
+  </tr>
+  </tbody>
+</table>
+<p>Total-Elements:&nbsp;{{x.totalElements}}</p>
+<ngb-pagination
+  [(page)]="page"
+  [pageSize]="10"
+  [collectionSize]="x.totalElements"
+  (pageChange)="loadPage()"
+  [rotate]="true" [ellipses]="false" [maxSize]="10" ></ngb-pagination>
+
+
